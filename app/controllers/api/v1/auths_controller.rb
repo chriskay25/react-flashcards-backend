@@ -16,4 +16,12 @@ class Api::V1::AuthsController < ApplicationController
         end
     end
 
+    def get_current_user
+        if logged_in?
+            render json: logged_in_user, status: :ok
+        else
+            render json: {error: 'No user is logged in'}, status: :unauthorized
+        end
+    end
+
 end
