@@ -1,5 +1,13 @@
 class ApplicationController < ActionController::API
 
+    def logged_in_user
+        @logged_in_user ||= User.find_by(id: decode_token_and_get_user_id)
+    end
+
+    def logged_in?
+        !!logged_in_user
+    end
+
     def generate_token(payload)
         token = JWT.encode(payload, 'token')
     end
