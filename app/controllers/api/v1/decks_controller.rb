@@ -5,6 +5,11 @@ class Api::V1::DecksController < ApplicationController
         render json: decks
     end
 
+    def show
+        deck = Deck.find_by(id: params[:id])
+        render json: deck
+    end
+
     private
 
     def deck_params
