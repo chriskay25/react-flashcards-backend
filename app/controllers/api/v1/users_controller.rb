@@ -14,10 +14,12 @@ class Api::V1::UsersController < ApplicationController
         user = User.new(user_params)
         if user.save
             token = generate_token({ id: user.id })
+            # binding.pry
             render json: {
-                user: user,
-                jwt: token
-            }, status: :created
+                user: ActiveModelSerializers::SerializableResource.new(user).to_json,
+                jwt: ActiveModelSerializers::SerializableResource.new(token).to_json
+            },status: :created
+            
         else
             render json: user.errors, status: :unprocessable_entity
         end
