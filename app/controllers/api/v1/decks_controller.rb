@@ -10,6 +10,24 @@ class Api::V1::DecksController < ApplicationController
         render json: deck
     end
 
+    def create
+        binding.pry
+        if logged_in?
+            deck = logged_in_user.decks.build(deck_params)
+            if deck.save
+                render json: ActiveModelSerializers::SerializableResource.new(deck).to_json, status: :created
+            # render json: {
+            #     user: ActiveModelSerializers::SerializableResource.new(user).to_json,
+            #     jwt: ActiveModelSerializers::SerializableResource.new(token).to_json
+            # }, status: :created
+            else
+                render json: deck.errors, status: :unprocessable_entity
+            end
+        else
+            render json: {error: "You do not appear to be logged in."}
+        end
+    end
+
     private
 
     def deck_params
