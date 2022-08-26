@@ -5,8 +5,9 @@ Rails.application.routes.draw do
       post '/signup', to: 'users#create'
       get '/auth', to: 'auths#get_current_user'
       resources :users
-      resources :decks
-      resources :cards
+      resources :decks do
+        resources :cards
+      end
     end
   end
 end
