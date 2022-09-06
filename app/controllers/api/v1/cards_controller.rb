@@ -28,6 +28,14 @@ class Api::V1::CardsController < ApplicationController
         end
     end
 
+    def destroy
+        if logged_in?
+            card = logged_in_user.cards.find_by(id: params[:id])
+            card.destroy
+            render json: {status: :ok}
+        end
+    end
+
     private
 
     def card_params
