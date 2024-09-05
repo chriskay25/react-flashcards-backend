@@ -1,13 +1,13 @@
 class Api::V1::DecksController < ApplicationController
 
     def index
-        decks = Deck.all
+        decks = logged_in_user.decks
         render json: decks
     end
 
     def show
         deck = Deck.find_by(id: params[:id])
-        render json: deck
+        render json: ActiveModelSerializers::SerializableResource.new(deck).to_json, status: :ok
     end
 
     def create
@@ -25,8 +25,9 @@ class Api::V1::DecksController < ApplicationController
 
     def destroy
         if logged_in?
-        deck = Deck.find_by(id: params[:id])
-        deck.delete
+            deck = Deck.find_by(id: params[:id])
+            deck.delete
+        end
     end
 
     private
