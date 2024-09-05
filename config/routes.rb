@@ -1,3 +1,12 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+  namespace :api do
+    namespace :v1 do
+      post '/login', to: 'auths#create'
+      post '/signup', to: 'users#create'
+      get '/auth', to: 'auths#get_current_user'
+      resources :users
+      resources :decks
+      resources :cards
+    end
+  end
 end
