@@ -5,8 +5,10 @@ Rails.application.routes.draw do
       post '/signup', to: 'users#create'
       get '/auth', to: 'auths#get_current_user'
       resources :users
-      resources :decks
-      resources :cards
+      resources :decks do
+        resources :cards, only: [:create]
+      end
+      resources :cards, except: [:create]
     end
   end
 end
